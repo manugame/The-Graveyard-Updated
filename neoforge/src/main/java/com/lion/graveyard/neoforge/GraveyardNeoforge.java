@@ -4,7 +4,6 @@ import com.lion.graveyard.Graveyard;
 import com.lion.graveyard.GraveyardClient;
 import com.lion.graveyard.init.TGEntities;
 import com.lion.graveyard.network.ClientPayloadHandler;
-import com.lion.graveyard.network.SkullEntitySpawnPacket;
 import com.lion.graveyard.platform.neoforge.NamelessHangedTradeOfferResourceListener;
 import com.lion.graveyard.platform.neoforge.RegistryHelperImpl;
 import com.lion.graveyard.util.SpawnHordeCommand;
@@ -26,9 +25,8 @@ import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
-import net.neoforged.neoforge.event.entity.SpawnPlacementRegisterEvent;
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlerEvent;
-import net.neoforged.neoforge.network.registration.IPayloadRegistrar;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import software.bernie.geckolib.GeckoLib;
 
 import java.util.Map;
@@ -38,8 +36,7 @@ import java.util.function.Supplier;
 @Mod(Graveyard.MOD_ID)
 public class GraveyardNeoforge {
 
-    public GraveyardNeoforge() {
-        IEventBus bus = net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext.get().getModEventBus();
+    public GraveyardNeoforge(IEventBus bus) {
 
         Graveyard.init();
 
@@ -81,10 +78,10 @@ public class GraveyardNeoforge {
     public static void registerResourceReloader(AddReloadListenerEvent event) {
         event.addListener(new NamelessHangedTradeOfferResourceListener());
     }
-
+        /*
     @SubscribeEvent
     public static void registerSpawnPlacements(SpawnPlacementRegisterEvent event) {
-        /*
+
         event.register(TGEntities.REAPER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
         event.register(TGEntities.ACOLYTE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkAnyLightMonsterSpawnRules);
         event.register(TGEntities.CORRUPTED_VINDICATOR.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkAnyLightMonsterSpawnRules);
@@ -97,9 +94,9 @@ public class GraveyardNeoforge {
         event.register(TGEntities.NIGHTMARE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
         event.register(TGEntities.LICH.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
 
-         */
-    }
 
+    }
+         */
     @SubscribeEvent
     public static void registerCommands(RegisterCommandsEvent event) {
         SpawnHordeCommand.register(event.getDispatcher());
@@ -117,16 +114,16 @@ public class GraveyardNeoforge {
         RegistryHelperImpl.ITEMS_TO_ADD.forEach((itemGroup, itemPairs) -> {
             if (event.getTabKey() == itemGroup) {
                 itemPairs.forEach(item -> {
-                    event.getEntries().put(item.getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                    event.accept(item.getDefaultInstance());
                 });
             }
         });
     }
 
     @SubscribeEvent
-    public static void registerPayloads(final RegisterPayloadHandlerEvent event) {
-        final IPayloadRegistrar registrar = event.registrar(Graveyard.MOD_ID);
-        registrar.play(GraveyardClient.SKULL_PACKET_ID, SkullEntitySpawnPacket::new, handler -> handler
-                .client(ClientPayloadHandler.getInstance()::handleData));
+    public static void registerPayloads(final RegisterPayloadHandlersEvent event) {
+        final PayloadRegistrar registrar = event.registrar(Graveyard.MOD_ID);
+//        registrar.playToClient(GraveyardClient.SKULL_PACKET_ID, SkullEntitySpawnPacket::new, handler -> handler
+//                .(ClientPayloadHandler.getInstance()::handleData));
     }
 }

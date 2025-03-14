@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 
 @Environment(EnvType.CLIENT)
 public class PillagerEyes extends RenderLayer<CorruptedPillager, CorruptedIllagerModel<CorruptedPillager>> {
@@ -23,9 +24,9 @@ public class PillagerEyes extends RenderLayer<CorruptedPillager, CorruptedIllage
 
     @Override
     public void render(PoseStack matrices, MultiBufferSource vertexConsumers, int light, CorruptedPillager entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-        VertexConsumer vertex = vertexConsumers.getBuffer(RenderType.eyes(new ResourceLocation(Graveyard.MOD_ID,"textures/entity/corrupted_illager_eyes.png")));
+        VertexConsumer vertex = vertexConsumers.getBuffer(RenderType.eyes(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID,"textures/entity/corrupted_illager_eyes.png")));
 
-        this.getParentModel().renderToBuffer(matrices, vertex, 15728640, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
+        this.getParentModel().renderToBuffer(matrices, vertex, 15728640, OverlayTexture.NO_OVERLAY, FastColor.ARGB32.colorFromFloat(1F, 1F, 1F, 1F));
     }
 
 

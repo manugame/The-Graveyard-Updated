@@ -5,8 +5,11 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 public class JsonProcessItemTradeOffer extends JsonTradeOffer {
 
@@ -40,7 +43,7 @@ public class JsonProcessItemTradeOffer extends JsonTradeOffer {
         }
 
         public MerchantOffer getOffer(Entity entity, RandomSource random) {
-            return new MerchantOffer(buy, currency, sell, this.maxUses, this.experience, this.multiplier);
+            return new MerchantOffer(new ItemCost(buy.getItem()), Optional.of(new ItemCost(currency.getItem())), sell, this.maxUses, this.experience, this.multiplier);
         }
 
     }

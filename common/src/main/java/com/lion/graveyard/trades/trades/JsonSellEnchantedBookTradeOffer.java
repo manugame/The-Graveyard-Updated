@@ -11,10 +11,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
+import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class JsonSellEnchantedBookTradeOffer extends JsonTradeOffer {
@@ -43,20 +45,21 @@ public class JsonSellEnchantedBookTradeOffer extends JsonTradeOffer {
         }
 
         public MerchantOffer getOffer(Entity entity, RandomSource random) {
-            List<Enchantment> list = BuiltInRegistries.ENCHANTMENT.stream().filter(Enchantment::isTradeable).collect(Collectors.toList());
-            Enchantment enchantment = (Enchantment)list.get(random.nextInt(list.size()));
-            int i = Mth.nextInt(random, enchantment.getMinLevel(), enchantment.getMaxLevel());
-            ItemStack itemStack = EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchantment, i));
-            int j = 2 + random.nextInt(5 + i * 10) + 3 * i;
-            if (enchantment.isTreasureOnly()) {
-                j *= 2;
-            }
-
-            if (j > 64) {
-                j = 64;
-            }
-
-            return new MerchantOffer(new ItemStack(currency.getItem(), j), new ItemStack(Items.BOOK), itemStack, this.maxUses, this.experience, multiplier);
+            return null;
+//            List<Enchantment> list = BuiltInRegistries.ENCHANTMENT_PROVIDER_TYPE.stream().filter(Enchantment::isTradeable).collect(Collectors.toList());
+//            Enchantment enchantment = (Enchantment)list.get(random.nextInt(list.size()));
+//            int i = Mth.nextInt(random, enchantment.getMinLevel(), enchantment.getMaxLevel());
+//            ItemStack itemStack = EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchantment, i));
+//            int j = 2 + random.nextInt(5 + i * 10) + 3 * i;
+//            if (enchantment.isTreasureOnly()) {
+//                j *= 2;
+//            }
+//
+//            if (j > 64) {
+//                j = 64;
+//            }
+//
+//            return new MerchantOffer(new ItemCost(currency.getItem(), j), Optional.of(new ItemCost(Items.BOOK)), itemStack, this.maxUses, this.experience, multiplier);
         }
     }
 }

@@ -24,7 +24,7 @@ public class SpawnHordeCommand {
 
     public static int executeSpawn(CommandSourceStack source) {
         source.sendSuccess(() -> Component.literal("Spawned a graveyard horde."), false);
-        int o = Graveyard.getConfig().getHorde(new ResourceLocation(Graveyard.MOD_ID, "horde_spawn")).mobSpawnAttempts;
+        int o = Graveyard.getConfig().getHorde(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "horde_spawn")).mobSpawnAttempts;
         BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos(source.getPosition().x, source.getPosition().y, source.getPosition().z);
         ServerLevel world = source.getLevel();
         RandomSource random = source.getLevel().getRandom();
@@ -73,7 +73,7 @@ public class SpawnHordeCommand {
             }
 
             hordeEntity.setPos((double) pos.getX(), (double) pos.getY(), (double) pos.getZ());
-            hordeEntity.finalizeSpawn(world, world.getCurrentDifficultyAt(pos), MobSpawnType.PATROL, (SpawnGroupData) null, (CompoundTag) null);
+            hordeEntity.finalizeSpawn(world, world.getCurrentDifficultyAt(pos), MobSpawnType.PATROL, (SpawnGroupData) null);
             hordeEntity.getNavigation().stop();
             world.addFreshEntityWithPassengers(hordeEntity);
             return true;

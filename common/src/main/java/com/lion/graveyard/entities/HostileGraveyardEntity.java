@@ -23,9 +23,9 @@ public abstract class HostileGraveyardEntity extends Monster {
     }
 
     @Override
-    protected void defineSynchedData() {
-        this.entityData.define(CAN_BURN_IN_SUNLIGHT, true);
-        super.defineSynchedData();
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        builder.define(CAN_BURN_IN_SUNLIGHT, true);
+        super.defineSynchedData(builder);
     }
 
     @Override
@@ -81,7 +81,7 @@ public abstract class HostileGraveyardEntity extends Monster {
                     if (itemStack.isDamageableItem()) {
                         itemStack.setDamageValue(itemStack.getDamageValue() + this.random.nextInt(2));
                         if (itemStack.getDamageValue() >= itemStack.getMaxDamage()) {
-                            this.broadcastBreakEvent(EquipmentSlot.HEAD);
+                            //this.broadcastBreakEvent(EquipmentSlot.HEAD); TODO: check thi
                             this.setItemSlot(EquipmentSlot.HEAD, ItemStack.EMPTY);
                         }
                     }
@@ -90,7 +90,7 @@ public abstract class HostileGraveyardEntity extends Monster {
                 }
 
                 if (bl) {
-                    this.setSecondsOnFire(8);
+                    this.igniteForSeconds(8);
                 }
             }
         }

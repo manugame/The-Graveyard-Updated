@@ -9,16 +9,16 @@ public class FallingCorpseModel extends GeoModel<FallingCorpse> {
 
     @Override
     public ResourceLocation getModelResource(FallingCorpse object) {
-        return new ResourceLocation(Graveyard.MOD_ID, "geo/falling_corpse.geo.json");
+        return ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "geo/falling_corpse.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(FallingCorpse object) {
-        return new ResourceLocation("textures/entity/skeleton/stray.png");
+        return ResourceLocation.withDefaultNamespace("textures/entity/skeleton/stray.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(FallingCorpse animatable) {
-        return new ResourceLocation(Graveyard.MOD_ID, "animations/falling_corpse/falling_corpse.animation.json");
+        return ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "animations/falling_corpse/falling_corpse.animation.json");
     }
 }

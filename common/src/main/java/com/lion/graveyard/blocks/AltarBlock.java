@@ -16,6 +16,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -78,7 +79,7 @@ public class AltarBlock extends Block {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    protected ItemInteractionResult useItemOn(ItemStack stack2, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         ItemStack stack = player.getItemInHand(hand);
         float blood = 0.0F;
         if (stack.is(TGItems.VIAL_OF_BLOOD.get())) {
@@ -139,14 +140,14 @@ public class AltarBlock extends Block {
                     world.addFreshEntity(lich);
                     lich.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 5));
 
-                    return InteractionResult.CONSUME;
+                    return ItemInteractionResult.CONSUME;
                 }
 
-                return InteractionResult.sidedSuccess(player.level().isClientSide);
+                return ItemInteractionResult.sidedSuccess(player.level().isClientSide);
             }
         }
 
 
-        return super.use(state, world, pos, player, hand, hit);
+        return super.useItemOn(stack2, state, world, pos, player, hand, hit);
     }
 }

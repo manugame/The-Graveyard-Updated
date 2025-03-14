@@ -29,16 +29,18 @@ import net.minecraft.world.level.GrassColor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 
 import java.util.Map;
 import java.util.function.Supplier;
 
-@Mod.EventBusSubscriber(modid = Graveyard.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Graveyard.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class GraveyardClientNeoforge {
 
 
@@ -47,9 +49,7 @@ public class GraveyardClientNeoforge {
         event.enqueueWork(() -> {
             GraveyardClient.postInit();
 
-            MenuScreens.register(TGScreens.OSSUARY_SCREEN_HANDLER, OssuaryScreen::new);
-
-            ItemProperties.register(TGItems.VIAL_OF_BLOOD.get(), new ResourceLocation("charged"), (stack, world, entity, seed) -> {
+            ItemProperties.register(TGItems.VIAL_OF_BLOOD.get(), ResourceLocation.withDefaultNamespace("charged"), (stack, world, entity, seed) -> {
                 if (entity != null && stack.is(TGItems.VIAL_OF_BLOOD.get())) {
                     return VialOfBlood.getBlood(stack);
                 }
@@ -58,6 +58,11 @@ public class GraveyardClientNeoforge {
 
             ItemBlockRenderTypes.setRenderLayer(TGBlocks.TG_GRASS_BLOCK.get(), RenderType.cutoutMipped());
         });
+    }
+
+    @SubscribeEvent
+    public static void onRegisterMenuScreensEvent(RegisterMenuScreensEvent event) {
+        event.register(TGScreens.OSSUARY_SCREEN_HANDLER, OssuaryScreen::new);
     }
 
 

@@ -2,6 +2,7 @@ package com.lion.graveyard.platform.neoforge;
 
 import com.lion.graveyard.Graveyard;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -27,7 +28,6 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.RecordItem;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -105,7 +105,8 @@ public class RegistryHelperImpl {
 
     public static <T extends Item> Supplier<T> registerMusicDiscItem(String name, int compOutput, Supplier<SoundEvent> event, Item.Properties props, int length) {
         Supplier<T> musicDisc = (Supplier<T>) registerItem(name, () ->
-                new RecordItem(compOutput, event, props, length * 20));
+                //new RecordItem(compOutput, event, props, length * 20));
+                new Item(props));
         return musicDisc;
     }
 
@@ -161,7 +162,7 @@ public class RegistryHelperImpl {
         return RECIPE_SERIALIZERS.register(name, () -> serializer);
     }
 
-    public static <T extends TrunkPlacer> Supplier<TrunkPlacerType<?>> registerTrunkPlacerType(String name, Codec<T> codec) {
+    public static <T extends TrunkPlacer> Supplier<TrunkPlacerType<?>> registerTrunkPlacerType(String name, MapCodec<T> codec) {
         return TRUNK_PLACERS.register(name, () -> new TrunkPlacerType<>(codec));
     }
 

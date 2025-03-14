@@ -7,11 +7,11 @@ import software.bernie.geckolib.model.GeoModel;
 
 
 public class LichModel extends GeoModel<LichEntity> {
-    private ResourceLocation texture = new ResourceLocation(Graveyard.MOD_ID, "textures/entity/lich_texture.png");
+    private ResourceLocation texture =ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "textures/entity/lich_texture.png");
 
     @Override
     public ResourceLocation getModelResource(LichEntity object) {
-        return new ResourceLocation(Graveyard.MOD_ID, "geo/lich.geo.json");
+        return ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "geo/lich.geo.json");
     }
 
     @Override
@@ -21,7 +21,7 @@ public class LichModel extends GeoModel<LichEntity> {
 
     @Override
     public ResourceLocation getAnimationResource(LichEntity animatable) {
-        return new ResourceLocation(Graveyard.MOD_ID, "animations/lich/lich.animation.json");
+        return ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "animations/lich/lich.animation.json");
     }
 
 }

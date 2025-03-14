@@ -1,5 +1,6 @@
 package com.lion.graveyard.entities;
 
+import com.lion.graveyard.Graveyard;
 import com.lion.graveyard.blocks.BrazierBlock;
 import com.lion.graveyard.init.TGCriteria;
 import com.lion.graveyard.init.TGSounds;
@@ -9,6 +10,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -38,16 +40,12 @@ import net.minecraft.world.level.block.CandleBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.Animation;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 
@@ -57,7 +55,7 @@ import java.util.UUID;
 public class WraithEntity extends HostileGraveyardEntity implements GeoEntity {
     private AnimatableInstanceCache factory = GeckoLibUtil.createInstanceCache(this);
     private static final UUID ATTACKING_SPEED_BOOST_ID = UUID.fromString("020E0DFB-87AE-4653-9556-831010E291A0");
-    private static final AttributeModifier ATTACKING_SPEED_BOOST = new AttributeModifier(ATTACKING_SPEED_BOOST_ID, "Attacking speed boost", 0.2D, AttributeModifier.Operation.ADDITION);
+    private static final AttributeModifier ATTACKING_SPEED_BOOST = new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "attacking_speed_boost"), 0.2D, AttributeModifier.Operation.ADD_VALUE);
     private final RawAnimation DEATH_ANIMATION = RawAnimation.begin().then("death", Animation.LoopType.PLAY_ONCE);
     private final RawAnimation IDLE_ANIMATION = RawAnimation.begin().then("idle", Animation.LoopType.LOOP);
     private final RawAnimation SPAWN_ANIMATION = RawAnimation.begin().then("spawn", Animation.LoopType.PLAY_ONCE);
@@ -80,11 +78,11 @@ public class WraithEntity extends HostileGraveyardEntity implements GeoEntity {
         super(entityType, world, "wraith");
         //this.moveControl = new WraithMoveControl(this);
         this.moveControl = new FlyingMoveControl(this, 0, true);
-        this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, -1.0F);
-        this.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
-        this.setPathfindingMalus(BlockPathTypes.WATER_BORDER, 16.0F);
-        this.setPathfindingMalus(BlockPathTypes.COCOA, -1.0F);
-        this.setPathfindingMalus(BlockPathTypes.FENCE, -1.0F);
+        this.setPathfindingMalus(PathType.DAMAGE_FIRE, -1.0F);
+        this.setPathfindingMalus(PathType.WATER, -1.0F);
+        this.setPathfindingMalus(PathType.WATER_BORDER, 16.0F);
+        this.setPathfindingMalus(PathType.COCOA, -1.0F);
+        this.setPathfindingMalus(PathType.FENCE, -1.0F);
     }
 
 
@@ -145,9 +143,9 @@ public class WraithEntity extends HostileGraveyardEntity implements GeoEntity {
 
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(ANIMATION, ANIMATION_IDLE);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(ANIMATION, ANIMATION_IDLE);
         spawnTimer = 20;
         setAnimation(ANIMATION_SPAWN);
     }
@@ -204,9 +202,9 @@ public class WraithEntity extends HostileGraveyardEntity implements GeoEntity {
 
         AttributeInstance entityAttributeInstance = this.getAttribute(Attributes.FLYING_SPEED);
         if (!isAggressive()) {
-            entityAttributeInstance.removeModifier(ATTACKING_SPEED_BOOST.getId());
+            entityAttributeInstance.removeModifier(ATTACKING_SPEED_BOOST);
         } else {
-            if (!entityAttributeInstance.hasModifier(ATTACKING_SPEED_BOOST)) {
+            if (!entityAttributeInstance.hasModifier(ATTACKING_SPEED_BOOST.id())) {
                 entityAttributeInstance.addTransientModifier(ATTACKING_SPEED_BOOST);
             }
         }
@@ -219,16 +217,15 @@ public class WraithEntity extends HostileGraveyardEntity implements GeoEntity {
         super.aiStep();
     }
 
-    @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData, @Nullable CompoundTag entityNbt) {
-        world.playSound(null, this.blockPosition(), SoundEvents.SOUL_ESCAPE, SoundSource.HOSTILE,2.0F, -5.0F);
-        return super.finalizeSpawn(world, difficulty, spawnReason, entityData, entityNbt);
+    public @Nullable SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+        level.playSound(null, this.blockPosition(), SoundEvents.SOUL_ESCAPE.value(), SoundSource.HOSTILE,2.0F, -5.0F);
+        return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
     }
 
-    public MobType getMobType() {
-        return MobType.UNDEAD;
-    }
+//    public MobType getMobType() {
+//        return MobType.UNDEAD;
+//    }
 
     @Override
     protected void tickDeath() {

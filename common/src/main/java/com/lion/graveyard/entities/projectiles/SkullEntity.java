@@ -13,6 +13,7 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerEntity;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -31,19 +32,23 @@ import net.minecraft.world.phys.Vec3;
 
 public class SkullEntity extends AbstractHurtingProjectile {
 
-    public static Packet<ClientGamePacketListener> createPacket(Entity entity) {
-        FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-        buf.writeVarInt(BuiltInRegistries.ENTITY_TYPE.getId(entity.getType()));
-        buf.writeUUID(entity.getUUID());
-        buf.writeVarInt(entity.getId());
-        buf.writeDouble(entity.getX());
-        buf.writeDouble(entity.getY());
-        buf.writeDouble(entity.getZ());
-        buf.writeByte(Mth.floor(entity.getXRot() * 256.0F / 360.0F));
-        buf.writeByte(Mth.floor(entity.getYRot() * 256.0F / 360.0F));
-        buf.writeFloat(entity.getXRot());
-        buf.writeFloat(entity.getYRot());
-        return new ClientboundAddEntityPacket(entity, buf.arrayOffset());
+    public Packet<ClientGamePacketListener> createPacket(ServerEntity p_352396_) {
+        Entity entity = this.getOwner();
+        Vec3 vec3 = p_352396_.getPositionBase();
+        int i = entity == null ? 0 : entity.getId();
+        return new ClientboundAddEntityPacket(
+                this.getId(),
+                this.getUUID(),
+                vec3.x(),
+                vec3.y(),
+                vec3.z(),
+                p_352396_.getLastSentXRot(),
+                p_352396_.getLastSentYRot(),
+                this.getType(),
+                i,
+                p_352396_.getLastSentMovement(),
+                0.0
+        );
     }
 
     private static final EntityDataAccessor<Boolean> CHARGED;
@@ -53,12 +58,12 @@ public class SkullEntity extends AbstractHurtingProjectile {
     }
 
     public SkullEntity(Level world, LivingEntity owner, double directionX, double directionY, double directionZ) {
-        super(TGEntities.SKULL.get(), owner, directionX, directionY, directionZ, world);
+        super(TGEntities.SKULL.get(), directionX, directionY, directionZ, world);
     }
 
     @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return createPacket(this);
+    public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity p_352396_) {
+        return createPacket(p_352396_);
     }
     
 
@@ -92,7 +97,7 @@ public class SkullEntity extends AbstractHurtingProjectile {
                 bl = entity.hurt(this.damageSources().indirectMagic(this, livingEntity), 10.0F);
                 if (bl) {
                     if (entity.isAlive()) {
-                        this.doEnchantDamageEffects(livingEntity, entity);
+                        //this.doEnchantDamageEffects(livingEntity, entity); TODO: check this
                     }
                 }
             }
@@ -126,8 +131,8 @@ public class SkullEntity extends AbstractHurtingProjectile {
         return false;
     }
 
-    protected void defineSynchedData() {
-        this.entityData.define(CHARGED, false);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        builder.define(CHARGED, false);
     }
 
     public boolean isDangerous() {

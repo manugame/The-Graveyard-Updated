@@ -45,9 +45,9 @@ public abstract class CorruptedIllager extends HordeGraveyardEntity {
         this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Mob.class, 8.0F));
     }
 
-    public MobType getMobType() {
-        return MobType.UNDEAD;
-    }
+//    public MobType getMobType() {
+//        return MobType.UNDEAD;
+//    }
 
 
     public boolean canAttack(LivingEntity target) {
@@ -85,25 +85,27 @@ public abstract class CorruptedIllager extends HordeGraveyardEntity {
         }
     }
 
-    @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData, @Nullable CompoundTag entityNbt) {
-        SpawnGroupData entityData2 = super.finalizeSpawn(world, difficulty, spawnReason, entityData, entityNbt);
+    @Override
+    public @Nullable SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData spawnGroupData) {
+        SpawnGroupData entityData2 = super.finalizeSpawn(world, difficulty, spawnReason, spawnGroupData);
         ((GroundPathNavigation)this.getNavigation()).setCanOpenDoors(true);
         RandomSource random = world.getRandom();
         this.populateDefaultEquipmentSlots(random, difficulty);
-        this.populateDefaultEquipmentEnchantments(random, difficulty);
+        this.populateDefaultEquipmentEnchantments(world, random, difficulty);
         return entityData2;
     }
 
-    public boolean isAlliedTo(Entity p_33314_) {
-        if (super.isAlliedTo(p_33314_)) {
-            return true;
-        } else if (p_33314_ instanceof LivingEntity && ((LivingEntity)p_33314_).getMobType() == MobType.ILLAGER) {
-            return this.getTeam() == null && p_33314_.getTeam() == null;
-        } else {
-            return false;
-        }
-    }
+
+    //TODO: find alternative for this
+//    public boolean isAlliedTo(Entity p_33314_) {
+//        if (super.isAlliedTo(p_33314_)) {
+//            return true;
+//        } else if (p_33314_ instanceof LivingEntity && ((LivingEntity)p_33314_).getMobType() == MobType.ILLAGER) {
+//            return this.getTeam() == null && p_33314_.getTeam() == null;
+//        } else {
+//            return false;
+//        }
+//    }
 
 
     public boolean isModelDamaged() {

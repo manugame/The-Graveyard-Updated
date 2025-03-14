@@ -1,6 +1,7 @@
 package com.lion.graveyard.platform;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.CriterionTrigger;
@@ -143,7 +144,7 @@ public class RegistryHelper {
     }
 
     @ExpectPlatform
-    public static <T extends TrunkPlacer> Supplier<TrunkPlacerType<?>> registerTrunkPlacerType(String name, Codec<T> codec) {
+    public static <T extends TrunkPlacer> Supplier<TrunkPlacerType<?>> registerTrunkPlacerType(String name, MapCodec<T> codec) {
         throw new AssertionError();
     }
 

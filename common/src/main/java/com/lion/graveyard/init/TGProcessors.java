@@ -6,6 +6,8 @@ import com.lion.graveyard.world.processors.RemoveWaterloggedProcessor;
 import com.lion.graveyard.world.processors.SwitchSpawnerProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorType;
 
+import static com.lion.graveyard.platform.RegistryHelper.registerStructureProcessor;
+
 
 public class TGProcessors {
 
@@ -14,9 +16,9 @@ public class TGProcessors {
     public static StructureProcessorType<SwitchSpawnerProcessor> SWITCH_SPAWNER = () -> SwitchSpawnerProcessor.CODEC;
 
     static {
-        RegistryHelper.registerStructureProcessor("remove_waterlogged_processor", REMOVE_WATERLOGGED);
-        RegistryHelper.registerStructureProcessor("switch_spawner_processor", SWITCH_SPAWNER);
-        RegistryHelper.registerStructureProcessor("waterlogged_crypt_processor", REMOVE_WATERLOGGED_CRYPT);
+        registerStructureProcessor("remove_waterlogged_processor", REMOVE_WATERLOGGED);
+        registerStructureProcessor("switch_spawner_processor", SWITCH_SPAWNER);
+        registerStructureProcessor("waterlogged_crypt_processor", REMOVE_WATERLOGGED_CRYPT);
     }
 
     public static void init() {}

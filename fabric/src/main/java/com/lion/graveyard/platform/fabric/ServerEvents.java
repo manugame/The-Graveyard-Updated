@@ -1,6 +1,6 @@
 package com.lion.graveyard.platform.fabric;
 
-import com.lion.graveyard.item.BoneStaffItem;
+//import com.lion.graveyard.item.BoneStaffItem;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.loader.api.FabricLoader;
@@ -67,7 +67,7 @@ public class ServerEvents {
                         if (keyValuePair.length > 1) {
                             String key = keyValuePair[0];
                             String value = keyValuePair[1];
-                            BoneStaffItem.ownerGhoulingMapping.putIfAbsent(UUID.fromString(key), UUID.fromString(value));
+                            //BoneStaffItem.ownerGhoulingMapping.putIfAbsent(UUID.fromString(key), UUID.fromString(value));
                         }
                     }
                 } catch (IOException e) {
@@ -92,10 +92,10 @@ public class ServerEvents {
                 FileWriter fileWriter = new FileWriter(server.getWorldPath(LevelResource.ROOT).toString() + "/graveyardGhoulingUUIDmapping.txt");
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
-                for (Map.Entry<UUID, UUID> entry : BoneStaffItem.ownerGhoulingMapping.entrySet()) {
-                    bufferedWriter.write(entry.getKey() + ":" + entry.getValue());
-                    bufferedWriter.newLine();
-                }
+//                for (Map.Entry<UUID, UUID> entry : BoneStaffItem.ownerGhoulingMapping.entrySet()) {
+//                    bufferedWriter.write(entry.getKey() + ":" + entry.getValue());
+//                    bufferedWriter.newLine();
+//                }
 
                 bufferedWriter.flush();
                 bufferedWriter.close();

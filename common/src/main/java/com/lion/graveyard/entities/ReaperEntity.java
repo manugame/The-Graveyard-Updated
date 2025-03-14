@@ -28,12 +28,8 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.Animation;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.EnumSet;
@@ -65,10 +61,10 @@ public class ReaperEntity extends HostileGraveyardEntity implements GeoEntity {
 
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(VEX_FLAGS, (byte)0);
-        this.entityData.define(ANIMATION, ANIMATION_IDLE);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(VEX_FLAGS, (byte)0);
+        builder.define(ANIMATION, ANIMATION_IDLE);
     }
 
     public void readAdditionalSaveData(CompoundTag nbt) {
@@ -99,9 +95,9 @@ public class ReaperEntity extends HostileGraveyardEntity implements GeoEntity {
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
-    public MobType getMobType() {
-        return MobType.UNDEAD;
-    }
+//    public MobType getMobType() {
+//        return MobType.UNDEAD;
+//    }
 
     public void move(MoverType movementType, Vec3 movement) {
         super.move(movementType, movement);
@@ -116,13 +112,11 @@ public class ReaperEntity extends HostileGraveyardEntity implements GeoEntity {
     }
 
 
-    @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData, @Nullable CompoundTag entityNbt) {
+    public @Nullable SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
         setAnimation(ANIMATION_SPAWN);
-        return super.finalizeSpawn(world, difficulty, spawnReason, entityData, entityNbt);
+        return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
     }
-
 
     @Nullable
     public BlockPos getBounds() {

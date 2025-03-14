@@ -8,12 +8,13 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.renderer.GeoRenderer;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 
 public class LichEyesFeatureRenderer extends GeoRenderLayer<LichEntity> {
-    private RenderType TEXTURE = RenderType.eyes(new ResourceLocation(Graveyard.MOD_ID, "textures/entity/lich_eye_texture.png"));;
+    private RenderType TEXTURE = RenderType.eyes(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "textures/entity/lich_eye_texture.png"));;
     private final GeoRenderer<LichEntity> renderer;
 
     public LichEyesFeatureRenderer(GeoRenderer<LichEntity> entityRendererIn) {
@@ -35,7 +36,7 @@ public class LichEyesFeatureRenderer extends GeoRenderLayer<LichEntity> {
                 partialTick,
                 15728640,
                 OverlayTexture.NO_OVERLAY,
-                1.0F, 1.0F, 1.0F, 1.0F
+                FastColor.ARGB32.colorFromFloat(1.0F, 1.0F, 1.0F, 1.0F)
         );
     }
 }

@@ -54,7 +54,7 @@ public class GraveyardConfig implements Config {
 
     // generation booleans
     public boolean enabled(ResourceLocation id) {
-        return getStructure(id).enabled;
+        return true;
     }
     public boolean fogSpawn(ResourceLocation id) {
         return getParticle(id).canGenerate;

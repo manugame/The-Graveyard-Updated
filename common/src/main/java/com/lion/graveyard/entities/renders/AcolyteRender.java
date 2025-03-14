@@ -15,7 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.monster.Vindicator;
 
 public class AcolyteRender extends MobRenderer<AcolyteEntity, AcolyteModel<AcolyteEntity>> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Graveyard.MOD_ID,"textures/entity/acolyte.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID,"textures/entity/acolyte.png");
 
     public AcolyteRender(EntityRendererProvider.Context ctx) {
         super(ctx, new AcolyteModel<>(ctx.bakeLayer(TGEntityModelLayers.ACOLYTE_MODEL_LAYER)), 0.5F);

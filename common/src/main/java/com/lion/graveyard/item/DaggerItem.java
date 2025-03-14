@@ -13,7 +13,8 @@ import net.minecraft.world.level.block.state.BlockState;
 public class DaggerItem extends SwordItem {
 
     public DaggerItem(Tier material, float effectiveDamage, float effectiveSpeed, Item.Properties settings) {
-        super(material, (int) (effectiveDamage - material.getAttackDamageBonus()), effectiveSpeed, settings);
+        //super(material, (int) (effectiveDamage - material.getAttackDamageBonus()), effectiveSpeed, settings); //TODO: fix this
+        super(material, settings);
     }
 
     public float getDestroySpeed(ItemStack stack, BlockState state) {

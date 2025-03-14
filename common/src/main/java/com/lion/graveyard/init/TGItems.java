@@ -1,6 +1,6 @@
 package com.lion.graveyard.init;
 
-import com.lion.graveyard.item.BoneStaffItem;
+//import com.lion.graveyard.item.BoneStaffItem;
 import com.lion.graveyard.item.DaggerItem;
 import com.lion.graveyard.item.VialOfBlood;
 import com.lion.graveyard.platform.RegistryHelper;
@@ -170,11 +170,11 @@ public class TGItems {
     public static final Supplier<Item> LATERALLY_LYING_SKELETON = RegistryHelper.registerItem("laterally_lying_skeleton", () -> new BlockItem(TGBlocks.LATERALLY_LYING_SKELETON.get(), new Item.Properties()));
     public static final Supplier<Item> LATERALLY_LYING_WITHER_SKELETON = RegistryHelper.registerItem("laterally_lying_wither_skeleton", () -> new BlockItem(TGBlocks.LATERALLY_LYING_WITHER_SKELETON.get(), new Item.Properties()));
 
-    public static final Supplier<Item> WHITE_BONE_STAFF = RegistryHelper.registerItem("white_bone_staff", () -> new BoneStaffItem((byte) 1));
-    public static final Supplier<Item> BLACK_BONE_STAFF = RegistryHelper.registerItem("black_bone_staff", () -> new BoneStaffItem((byte) 2));
-    public static final Supplier<Item> RED_BONE_STAFF = RegistryHelper.registerItem("red_bone_staff", () -> new BoneStaffItem((byte) 3));
-    public static final Supplier<Item> CYAN_BONE_STAFF = RegistryHelper.registerItem("cyan_bone_staff", () -> new BoneStaffItem((byte) 4));
-    public static final Supplier<Item> PURPLE_BONE_STAFF = RegistryHelper.registerItem("purple_bone_staff", () -> new BoneStaffItem((byte) 5));
+//    public static final Supplier<Item> WHITE_BONE_STAFF = RegistryHelper.registerItem("white_bone_staff", () -> new BoneStaffItem((byte) 1));
+//    public static final Supplier<Item> BLACK_BONE_STAFF = RegistryHelper.registerItem("black_bone_staff", () -> new BoneStaffItem((byte) 2));
+//    public static final Supplier<Item> RED_BONE_STAFF = RegistryHelper.registerItem("red_bone_staff", () -> new BoneStaffItem((byte) 3));
+//    public static final Supplier<Item> CYAN_BONE_STAFF = RegistryHelper.registerItem("cyan_bone_staff", () -> new BoneStaffItem((byte) 4));
+//    public static final Supplier<Item> PURPLE_BONE_STAFF = RegistryHelper.registerItem("purple_bone_staff", () -> new BoneStaffItem((byte) 5));
 
 
     public static final Supplier<Item> ALTAR = RegistryHelper.registerItem("altar", () -> new BlockItem(TGBlocks.ALTAR.get(), new Item.Properties()));
@@ -301,11 +301,11 @@ public class TGItems {
         RegistryHelper.addToItemGroup(TGItemGroups.ITEM_GROUP, NAMELESS_HANGED_SPAWN_EGG.get());
 
         RegistryHelper.addToItemGroup(TGItemGroups.ITEM_GROUP, BONE_DAGGER.get());
-        RegistryHelper.addToItemGroup(TGItemGroups.ITEM_GROUP, WHITE_BONE_STAFF.get());
-        RegistryHelper.addToItemGroup(TGItemGroups.ITEM_GROUP, BLACK_BONE_STAFF.get());
-        RegistryHelper.addToItemGroup(TGItemGroups.ITEM_GROUP, RED_BONE_STAFF.get());
-        RegistryHelper.addToItemGroup(TGItemGroups.ITEM_GROUP, CYAN_BONE_STAFF.get());
-        RegistryHelper.addToItemGroup(TGItemGroups.ITEM_GROUP, PURPLE_BONE_STAFF.get());
+//        RegistryHelper.addToItemGroup(TGItemGroups.ITEM_GROUP, WHITE_BONE_STAFF.get());
+//        RegistryHelper.addToItemGroup(TGItemGroups.ITEM_GROUP, BLACK_BONE_STAFF.get());
+//        RegistryHelper.addToItemGroup(TGItemGroups.ITEM_GROUP, RED_BONE_STAFF.get());
+//        RegistryHelper.addToItemGroup(TGItemGroups.ITEM_GROUP, CYAN_BONE_STAFF.get());
+//        RegistryHelper.addToItemGroup(TGItemGroups.ITEM_GROUP, PURPLE_BONE_STAFF.get());
 
         RegistryHelper.addToItemGroup(TGItemGroups.ITEM_GROUP, ALTAR.get());
         RegistryHelper.addToItemGroup(TGItemGroups.ITEM_GROUP, ALTAR_SIDE.get());

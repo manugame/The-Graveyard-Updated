@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.PacketUtils;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -20,10 +21,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientPacketListener.class)
-public class ClientPlayNetworkHandlerMixin {
+public abstract class ClientPlayNetworkHandlerMixin {
 
     @Shadow
     private ClientLevel level;
+
+    @Shadow public abstract RegistryAccess.Frozen registryAccess();
 
     @Inject(method = "handleOpenSignEditor", at = @At(value = "HEAD"), cancellable = true)
     public void openSignEditor(ClientboundOpenSignEditorPacket packet, CallbackInfo info) {
@@ -50,7 +53,7 @@ public class ClientPlayNetworkHandlerMixin {
         if (blockEntity instanceof GravestoneBlockEntity) {
             CompoundTag nbtCompound = packet.getTag();
             if (nbtCompound != null) {
-                blockEntity.load(nbtCompound);
+                blockEntity.loadCustomOnly(nbtCompound, this.registryAccess());
             }
             info.cancel();
         }

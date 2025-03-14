@@ -15,6 +15,7 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -144,15 +145,19 @@ public class OssuaryScreenHandler extends AbstractContainerMenu {
         this.selectedRecipe.set(-1);
         this.outputSlot.set(ItemStack.EMPTY);
         if (!stack.isEmpty()) {
-            this.availableRecipes = this.world.getRecipeManager().getRecipesFor(TGRecipeTypes.OSSUARY_CARVING.get(), input, this.world);
+            this.availableRecipes = this.world.getRecipeManager().getRecipesFor(TGRecipeTypes.OSSUARY_CARVING.get(), createRecipeInput(input), this.world);
         }
 
+    }
+
+    private static SingleRecipeInput createRecipeInput(Container p_346312_) {
+        return new SingleRecipeInput(p_346312_.getItem(0));
     }
 
     void populateResult() {
         if (!this.availableRecipes.isEmpty() && this.isInBounds(this.selectedRecipe.get())) {
             RecipeHolder<OssuaryRecipe> carvingRecipe = this.availableRecipes.get(this.selectedRecipe.get());
-            ItemStack itemStack = carvingRecipe.value().assemble(this.input, this.world.registryAccess());
+            ItemStack itemStack = carvingRecipe.value().assemble(createRecipeInput(input), this.world.registryAccess());
             if (itemStack.isItemEnabled(this.world.enabledFeatures())) {
                 this.output.setRecipeUsed(carvingRecipe);
                 this.outputSlot.set(itemStack);
@@ -196,7 +201,7 @@ public class OssuaryScreenHandler extends AbstractContainerMenu {
                 if (!this.moveItemStackTo(itemStack2, 2, 38, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (this.world.getRecipeManager().getRecipeFor(TGRecipeTypes.OSSUARY_CARVING.get(), new SimpleContainer(itemStack2), this.world).isPresent()) {
+            } else if (this.world.getRecipeManager().getRecipeFor(TGRecipeTypes.OSSUARY_CARVING.get(), new SingleRecipeInput(itemStack2), this.world).isPresent()) {
                 if (!this.moveItemStackTo(itemStack2, 0, 1, false)) {
                     return ItemStack.EMPTY;
                 }

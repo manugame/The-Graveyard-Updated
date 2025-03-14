@@ -5,6 +5,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,7 +38,7 @@ public class JsonSellItemTradeOffer extends JsonTradeOffer {
         }
 
         public MerchantOffer getOffer(Entity entity, RandomSource random) {
-            return new MerchantOffer(currency, sell, this.maxUses, this.experience, multiplier);
+            return new MerchantOffer(new ItemCost(currency.getItem()), sell, this.maxUses, this.experience, multiplier);
         }
     }
 }

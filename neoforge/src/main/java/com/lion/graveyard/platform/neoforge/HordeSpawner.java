@@ -5,19 +5,21 @@ import com.lion.graveyard.entities.horde.GraveyardHordeSpawner;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.LogicalSide;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.event.TickEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
-@Mod.EventBusSubscriber(modid = Graveyard.MOD_ID)
+@EventBusSubscriber(value = Dist.DEDICATED_SERVER, modid = Graveyard.MOD_ID)
 public class HordeSpawner {
     private static Map<ResourceLocation, GraveyardHordeSpawner> spawners = new HashMap<>();
 
@@ -52,16 +54,10 @@ public class HordeSpawner {
     }
 
     @SubscribeEvent
-    public static void onWorldTick(TickEvent.LevelTickEvent event) {
-        if (event.phase != TickEvent.Phase.START)
-            return;
-
-        if (event.side != LogicalSide.SERVER)
-            return;
-
-        GraveyardHordeSpawner spawner = spawners.get(event.level.dimension().location());
+    public static void onWorldTick(LevelTickEvent.Pre event) {
+        GraveyardHordeSpawner spawner = spawners.get(event.getLevel().dimension().location());
         if (spawner != null) {
-            spawner.tick(event.level.getServer().overworld(), true, true);
+            spawner.tick(event.getLevel().getServer().overworld(), true, true);
         }
     }
 }

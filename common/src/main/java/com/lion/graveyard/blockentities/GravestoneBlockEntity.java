@@ -7,6 +7,7 @@ import com.mojang.serialization.DataResult;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
@@ -67,8 +68,8 @@ public class GravestoneBlockEntity extends BlockEntity {
         return 90;
     }
 
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
         DataResult var10000 = SignText.DIRECT_CODEC.encodeStart(NbtOps.INSTANCE, this.text);
         Logger var10001 = LOGGER;
         Objects.requireNonNull(var10001);
@@ -78,8 +79,8 @@ public class GravestoneBlockEntity extends BlockEntity {
         tag.putBoolean("is_waxed", this.waxed);
     }
 
-    public void load(CompoundTag nbt) {
-        super.load(nbt);
+    protected void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+        super.loadAdditional(nbt, registries);
         DataResult<SignText> var10000;
         Logger var10001;
         if (nbt.contains("front_text")) {
@@ -189,10 +190,10 @@ public class GravestoneBlockEntity extends BlockEntity {
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    public CompoundTag getUpdateTag() {
-        return this.saveWithoutMetadata();
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return this.saveWithoutMetadata(registries);
     }
-
     public boolean onlyOpCanSetNbt() {
         return true;
     }

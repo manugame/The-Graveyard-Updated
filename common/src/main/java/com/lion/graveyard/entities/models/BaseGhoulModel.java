@@ -9,16 +9,16 @@ public class BaseGhoulModel extends GeoModel<GhoulEntity> {
 
     @Override
     public ResourceLocation getModelResource(GhoulEntity object) {
-        return new ResourceLocation(Graveyard.MOD_ID, "geo/ghoul.geo.json");
+        return ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "geo/ghoul.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(GhoulEntity object) {
-        return new ResourceLocation(Graveyard.MOD_ID, "textures/entity/ghoul_skin" + object.getVariant() + ".png");
+        return ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "textures/entity/ghoul_skin" + object.getVariant() + ".png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(GhoulEntity animatable) {
-        return new ResourceLocation(Graveyard.MOD_ID, "animations/ghoul/ghoul.animation.json");
+        return ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "animations/ghoul/ghoul.animation.json");
     }
 }

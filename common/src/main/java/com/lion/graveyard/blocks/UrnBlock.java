@@ -5,6 +5,7 @@ import com.lion.graveyard.init.TGBlockEntities;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.Container;
@@ -48,7 +49,7 @@ public class UrnBlock extends BaseEntityBlock implements SimpleWaterloggedBlock,
         this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false).setValue(OPEN, false));
     }
     @Override
-    public boolean isPathfindable(BlockState p_60475_, BlockGetter p_60476_, BlockPos p_60477_, PathComputationType p_60478_) {
+    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
         return false;
     }
 
@@ -143,10 +144,10 @@ public class UrnBlock extends BaseEntityBlock implements SimpleWaterloggedBlock,
     }
 
     public void setPlacedBy(Level p_49052_, BlockPos p_49053_, BlockState p_49054_, @Nullable LivingEntity p_49055_, ItemStack p_49056_) {
-        if (p_49056_.hasCustomHoverName()) {
+        if (p_49056_.getHoverName() != null) {
             BlockEntity blockentity = p_49052_.getBlockEntity(p_49053_);
             if (blockentity instanceof UrnBlockEntity) {
-                ((UrnBlockEntity)blockentity).setCustomName(p_49056_.getHoverName());
+                ((UrnBlockEntity)blockentity).setComponents((net.minecraft.core.component.DataComponentMap) p_49056_.get(DataComponents.CUSTOM_NAME));
             }
         }
 

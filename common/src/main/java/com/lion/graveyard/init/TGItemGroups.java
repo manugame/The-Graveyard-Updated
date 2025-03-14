@@ -10,7 +10,7 @@ import net.minecraft.world.item.Items;
 
 public class TGItemGroups {
 
-    public static final ResourceKey<CreativeModeTab> ITEM_GROUP = ResourceKey.create(Registries.CREATIVE_MODE_TAB, new ResourceLocation(Graveyard.MOD_ID, "group"));
+    public static final ResourceKey<CreativeModeTab> ITEM_GROUP = ResourceKey.create(Registries.CREATIVE_MODE_TAB, ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "group"));
 
     public static void init() {
         RegistryHelper.registerItemGroup(ITEM_GROUP, "group", "The Graveyard", Items.SKELETON_SKULL);

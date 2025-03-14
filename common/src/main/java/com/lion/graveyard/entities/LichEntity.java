@@ -8,7 +8,7 @@ import com.lion.graveyard.init.TGEntities;
 import com.lion.graveyard.init.TGParticles;
 import com.lion.graveyard.init.TGSounds;
 import com.lion.graveyard.sounds.BossMusicPlayer;
-import com.lion.graveyard.util.MathUtil;;
+import com.lion.graveyard.util.MathUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -17,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -51,12 +52,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.Animation;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.*;
@@ -398,7 +395,7 @@ public class LichEntity extends Monster implements GeoEntity {
         }
 
         if (!canHuntStart() && random.nextInt(5) == 0) {
-            level().playSound(null, this.blockPosition(), SoundEvents.SOUL_ESCAPE, SoundSource.HOSTILE, 4.0F, -10.0F);
+            level().playSound(null, this.blockPosition(), SoundEvents.SOUL_ESCAPE.value(), SoundSource.HOSTILE, 4.0F, -10.0F);
         }
 
         if (getMusicDelay() < 78) {
@@ -454,7 +451,7 @@ public class LichEntity extends Monster implements GeoEntity {
             AttributeInstance entityAttributeInstance = this.getAttribute(Attributes.MOVEMENT_SPEED);
             setCanMove(true);
             setAnimationState(ANIMATION_PHASE_3_ATTACK);
-            if (!entityAttributeInstance.hasModifier(CRAWL_SPEED_BOOST)) {
+            if (!entityAttributeInstance.hasModifier(CRAWL_SPEED_BOOST.id())) {
                 entityAttributeInstance.addTransientModifier(CRAWL_SPEED_BOOST);
             }
         }
@@ -505,11 +502,11 @@ public class LichEntity extends Monster implements GeoEntity {
                 }
                 setAnimationState(ANIMATION_PHASE_2_ATTACK);
 
-                if (!entityAttributeInstance.hasModifier(ATTACKING_SPEED_BOOST)) {
+                if (!entityAttributeInstance.hasModifier(ATTACKING_SPEED_BOOST.id())) {
                     entityAttributeInstance.addTransientModifier(ATTACKING_SPEED_BOOST);
                 }
 
-                if (!entityAttributeDmgInstance.hasModifier(DMG_BOOST)) {
+                if (!entityAttributeDmgInstance.hasModifier(DMG_BOOST.id())) {
                     entityAttributeDmgInstance.addTransientModifier(DMG_BOOST);
                 }
             }
@@ -521,8 +518,8 @@ public class LichEntity extends Monster implements GeoEntity {
                 setAnimationState(ANIMATION_STUNNED);
                 setHuntStart(false);
                 setCanMove(false);
-                entityAttributeInstance.removeModifier(ATTACKING_SPEED_BOOST.getId());
-                entityAttributeDmgInstance.removeModifier(DMG_BOOST.getId());
+                entityAttributeInstance.removeModifier(ATTACKING_SPEED_BOOST);
+                entityAttributeDmgInstance.removeModifier(DMG_BOOST);
             }
 
             if (this.getHuntTimer() > 0) {
@@ -567,8 +564,8 @@ public class LichEntity extends Monster implements GeoEntity {
                 setAnimationState(ANIMATION_STUNNED);
                 setHuntStart(false);
                 setCanMove(false);
-                entityAttributeInstance.removeModifier(ATTACKING_SPEED_BOOST.getId());
-                entityAttributeDmgInstance.removeModifier(DMG_BOOST.getId());
+                entityAttributeInstance.removeModifier(ATTACKING_SPEED_BOOST);
+                entityAttributeDmgInstance.removeModifier(DMG_BOOST);
             }
 
             int phaseThreeTimer = getStartPhaseThreeAnimTimer();
@@ -692,23 +689,24 @@ public class LichEntity extends Monster implements GeoEntity {
         }
     }
 
-    @Override
-    public float getStandingEyeHeight(Pose pose, EntityDimensions dimensions) {
-        if (pose == Pose.CROUCHING) {
-            return 2.0F;
-        } else {
-            return 4.0F;
-        }
-    }
+    //TODO: fix this
+//    @Override
+//    public float getStandingEyeHeight(Pose pose, EntityDimensions dimensions) {
+//        if (pose == Pose.CROUCHING) {
+//            return 2.0F;
+//        } else {
+//            return 4.0F;
+//        }
+//    }
 
-    @Override
-    public EntityDimensions getDimensions(Pose pose) {
-        if (pose == Pose.CROUCHING) {
-            setPose(Pose.CROUCHING);
-            return CRAWL_DIMENSIONS;
-        }
-        return super.getDimensions(pose);
-    }
+//    @Override
+//    public EntityDimensions getDimensions(Pose pose) {
+//        if (pose == Pose.CROUCHING) {
+//            setPose(Pose.CROUCHING);
+//            return CRAWL_DIMENSIONS;
+//        }
+//        return super.getDimensions(pose);
+//    }
 
     @Override
     public boolean causeFallDamage(float p_147187_, float p_147188_, DamageSource p_147189_) {
@@ -720,10 +718,11 @@ public class LichEntity extends Monster implements GeoEntity {
         return false;
     }
 
-    @Override
-    public MobType getMobType() {
-        return MobType.UNDEAD;
-    }
+//    @Override
+//    public MobType getMobType() {
+//        return MobType.UNDEAD;
+//    }
+//
 
     @Override
     protected boolean canRide(Entity p_20339_) {
@@ -731,7 +730,7 @@ public class LichEntity extends Monster implements GeoEntity {
     }
 
     @Override
-    public boolean canChangeDimensions() {
+    public boolean canChangeDimensions(Level oldLevel, Level newLevel) {
         return false;
     }
 
@@ -1092,24 +1091,25 @@ public class LichEntity extends Monster implements GeoEntity {
     }
     /* SOUNDS END */
 
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(CAN_MOVE, false);
-        this.entityData.define(INVUL_TIMER, 0);
-        this.entityData.define(MUSIC_DELAY, 0);
-        this.entityData.define(HUNT_TIMER, 0);
-        this.entityData.define(FIGHT_DURATION_TIMER, 0);
-        this.entityData.define(HEAL_DURATION_TIMER, 0);
-        this.entityData.define(LEVITATION_DURATION_TIMER, 0);
-        this.entityData.define(CORPSE_SPELL_DURATION_TIMER, 0);
-        this.entityData.define(PHASE_INVUL_TIMER, 0);
-        this.entityData.define(ANIMATION, ANIMATION_IDLE);
-        this.entityData.define(ATTACK_ANIM_TIMER, 0);
-        this.entityData.define(CONJURE_FANG_TIMER, 0);
-        this.entityData.define(PHASE_TWO_START_ANIM_TIMER, START_PHASE_TWO_ANIMATION_DURATION);
-        this.entityData.define(PHASE_THREE_START_ANIM_TIMER, START_PHASE_THREE_ANIMATION_DURATION);
-        this.entityData.define(PHASE, 1);
-        this.entityData.define(CAN_HUNT_START, false);
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(CAN_MOVE, false);
+        builder.define(INVUL_TIMER, 0);
+        builder.define(MUSIC_DELAY, 0);
+        builder.define(HUNT_TIMER, 0);
+        builder.define(FIGHT_DURATION_TIMER, 0);
+        builder.define(HEAL_DURATION_TIMER, 0);
+        builder.define(LEVITATION_DURATION_TIMER, 0);
+        builder.define(CORPSE_SPELL_DURATION_TIMER, 0);
+        builder.define(PHASE_INVUL_TIMER, 0);
+        builder.define(ANIMATION, ANIMATION_IDLE);
+        builder.define(ATTACK_ANIM_TIMER, 0);
+        builder.define(CONJURE_FANG_TIMER, 0);
+        builder.define(PHASE_TWO_START_ANIM_TIMER, START_PHASE_TWO_ANIMATION_DURATION);
+        builder.define(PHASE_THREE_START_ANIM_TIMER, START_PHASE_THREE_ANIMATION_DURATION);
+        builder.define(PHASE, 1);
+        builder.define(CAN_HUNT_START, false);
     }
 
     // on game stop
@@ -1190,9 +1190,9 @@ public class LichEntity extends Monster implements GeoEntity {
         CAN_ATTACK_PREDICATE = Entity::isAlwaysTicking;
         HEAD_TARGET_PREDICATE = TargetingConditions.forCombat().range(20.0D).selector(CAN_ATTACK_PREDICATE);
         CRAWL_DIMENSIONS = EntityDimensions.fixed(1.8F, 2.0F);
-        CRAWL_SPEED_BOOST = new AttributeModifier(CRAWL_SPEED_BOOST_ID, "Crawl speed boost", 0.18D, AttributeModifier.Operation.ADDITION);
-        ATTACKING_SPEED_BOOST = new AttributeModifier(ATTACKING_SPEED_BOOST_ID, "Attacking speed boost", Graveyard.getConfig().corruptedChampionConfigEntries.get("corrupted_champion").speedInHuntPhase, AttributeModifier.Operation.ADDITION);
-        DMG_BOOST = new AttributeModifier(ATTACKING_DMG_BOOST_ID, "Damage speed boost", Graveyard.getConfig().corruptedChampionConfigEntries.get("corrupted_champion").damageHuntingPhaseAddition, AttributeModifier.Operation.ADDITION);
+        CRAWL_SPEED_BOOST = new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "crawl_speed_boost"), 0.18D, AttributeModifier.Operation.ADD_VALUE);
+        ATTACKING_SPEED_BOOST = new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "attacking_speed_boost"), Graveyard.getConfig().corruptedChampionConfigEntries.get("corrupted_champion").speedInHuntPhase, AttributeModifier.Operation.ADD_VALUE);
+        DMG_BOOST = new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "damage_speed_boost"), Graveyard.getConfig().corruptedChampionConfigEntries.get("corrupted_champion").damageHuntingPhaseAddition, AttributeModifier.Operation.ADD_VALUE);
     }
 
     public class SummonFallenCorpsesGoal extends Goal {

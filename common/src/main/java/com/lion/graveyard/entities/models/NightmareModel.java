@@ -10,16 +10,16 @@ public class NightmareModel extends GeoModel<NightmareEntity> {
 
     @Override
     public ResourceLocation getModelResource(NightmareEntity object) {
-        return new ResourceLocation(Graveyard.MOD_ID, "geo/nightmare.geo.json");
+        return ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "geo/nightmare.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(NightmareEntity object) {
-        return new ResourceLocation(Graveyard.MOD_ID, "textures/entity/nightmare.png");
+        return ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "textures/entity/nightmare.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(NightmareEntity animatable) {
-        return new ResourceLocation(Graveyard.MOD_ID, "animations/nightmare/nightmare.animation.json");
+        return ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "animations/nightmare/nightmare.animation.json");
     }
 }

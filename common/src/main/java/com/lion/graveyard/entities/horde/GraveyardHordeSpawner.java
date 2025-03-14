@@ -32,7 +32,7 @@ public class GraveyardHordeSpawner implements CustomSpawner {
     public int tick(ServerLevel world, boolean spawnMonsters, boolean spawnAnimals) {
         if (!spawnMonsters) {
             return 0;
-        } else if (!Graveyard.getConfig().getHorde(new ResourceLocation(Graveyard.MOD_ID, "horde_spawn")).enabled) {
+        } else if (!Graveyard.getConfig().getHorde(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "horde_spawn")).enabled) {
            return 0;
         } else {
             RandomSource random = world.random;
@@ -40,8 +40,8 @@ public class GraveyardHordeSpawner implements CustomSpawner {
             if (this.ticksUntilNextSpawn > 0) {
                 return 0;
             } else {
-                int randomizer = Graveyard.getConfig().getHorde(new ResourceLocation(Graveyard.MOD_ID, "horde_spawn")).additionalRandomizedTicks;
-                this.ticksUntilNextSpawn += Graveyard.getConfig().getHorde(new ResourceLocation(Graveyard.MOD_ID, "horde_spawn")).ticksUntilNextSpawn + random.nextInt(randomizer <= 0 ? 1200 : randomizer);
+                int randomizer = Graveyard.getConfig().getHorde(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "horde_spawn")).additionalRandomizedTicks;
+                this.ticksUntilNextSpawn += Graveyard.getConfig().getHorde(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "horde_spawn")).ticksUntilNextSpawn + random.nextInt(randomizer <= 0 ? 1200 : randomizer);
                 if (world.isNight()) {
                     if (random.nextInt(5) != 0) {
                         return 0;
@@ -68,7 +68,7 @@ public class GraveyardHordeSpawner implements CustomSpawner {
                                     } else {
                                         int n = 0;
                                         // how many entities will spawn
-                                        int o = Graveyard.getConfig().getHorde(new ResourceLocation(Graveyard.MOD_ID, "horde_spawn")).mobSpawnAttempts;
+                                        int o = Graveyard.getConfig().getHorde(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "horde_spawn")).mobSpawnAttempts;
                                         boolean illagerSpawn = random.nextBoolean();
 
                                         for (int p = 0; p < o; ++p) {
@@ -136,7 +136,7 @@ public class GraveyardHordeSpawner implements CustomSpawner {
                 }
 
                 hordeEntity.setPos((double)pos.getX(), (double)pos.getY(), (double)pos.getZ());
-                hordeEntity.finalizeSpawn(world, world.getCurrentDifficultyAt(pos), MobSpawnType.PATROL,null, null);
+                hordeEntity.finalizeSpawn(world, world.getCurrentDifficultyAt(pos), MobSpawnType.PATROL,null);
                 hordeEntity.getNavigation().stop();
                 world.addFreshEntityWithPassengers(hordeEntity);
                 return true;

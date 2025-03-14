@@ -11,9 +11,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib.animatable.GeoBlockEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 
@@ -63,7 +62,7 @@ public class OssuaryBlockEntity extends BlockEntity implements GeoBlockEntity {
 
     public static void tick(Level world, BlockPos pos, BlockState state, OssuaryBlockEntity blockEntity) {
         if (world.random.nextInt(100) == 0) {
-            world.playSound(null, pos, SoundEvents.SOUL_ESCAPE, SoundSource.BLOCKS, 4.0F, -3.0F);
+            world.playSound(null, pos, SoundEvents.SOUL_ESCAPE.value(), SoundSource.BLOCKS, 4.0F, -3.0F);
         }
 
         Player playerEntity = world.getNearestPlayer((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, 4.0D, false);

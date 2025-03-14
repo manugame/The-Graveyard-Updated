@@ -19,12 +19,12 @@ import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class OssuaryScreen extends AbstractContainerScreen<OssuaryScreenHandler> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("textures/gui/container/stonecutter.png");
-    private static final ResourceLocation SCROLLER_TEXTURE = new ResourceLocation("container/stonecutter/scroller");
-    private static final ResourceLocation SCROLLER_DISABLED_TEXTURE = new ResourceLocation("container/stonecutter/scroller_disabled");
-    private static final ResourceLocation RECIPE_SELECTED_SPRITE = new ResourceLocation("container/stonecutter/recipe_selected");
-    private static final ResourceLocation RECIPE_HIGHLIGHTED_SPRITE = new ResourceLocation("container/stonecutter/recipe_highlighted");
-    private static final ResourceLocation RECIPE_SPRITE = new ResourceLocation("container/stonecutter/recipe");
+    private static final ResourceLocation TEXTURE = ResourceLocation.withDefaultNamespace("textures/gui/container/stonecutter.png");
+    private static final ResourceLocation SCROLLER_TEXTURE = ResourceLocation.withDefaultNamespace("container/stonecutter/scroller");
+    private static final ResourceLocation SCROLLER_DISABLED_TEXTURE = ResourceLocation.withDefaultNamespace("container/stonecutter/scroller_disabled");
+    private static final ResourceLocation RECIPE_SELECTED_SPRITE = ResourceLocation.withDefaultNamespace("container/stonecutter/recipe_selected");
+    private static final ResourceLocation RECIPE_HIGHLIGHTED_SPRITE = ResourceLocation.withDefaultNamespace("container/stonecutter/recipe_highlighted");
+    private static final ResourceLocation RECIPE_SPRITE = ResourceLocation.withDefaultNamespace("container/stonecutter/recipe");
     private float scrollAmount;
     private boolean mouseClicked;
     private int scrollOffset;

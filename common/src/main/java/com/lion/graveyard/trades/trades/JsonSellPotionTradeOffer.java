@@ -8,7 +8,6 @@ import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionBrewing;
-import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.trading.MerchantOffer;
 import org.jetbrains.annotations.NotNull;
@@ -48,12 +47,13 @@ public class JsonSellPotionTradeOffer extends JsonTradeOffer {
         }
 
         public MerchantOffer getOffer(Entity entity, RandomSource random) {
-            List<Potion> list = BuiltInRegistries.POTION.stream().filter((potionx) -> !potionx.getEffects().isEmpty() && PotionBrewing.isBrewablePotion(potionx)).collect(Collectors.toList());
-
-            Potion potion = list.get(random.nextInt(list.size()));
-            ItemStack potionStack = PotionUtils.setPotion(new ItemStack(this.sell.getItem(), 1), potion);
-
-            return new MerchantOffer(PotionUtils.setPotion(buy, Potions.WATER), currency, potionStack, this.maxUses, this.experience, this.multiplier);
+//            List<Potion> list = BuiltInRegistries.POTION.stream().filter((potionx) -> !potionx.getEffects().isEmpty() && PotionBrewing.isBrewablePotion(potionx)).collect(Collectors.toList());
+//
+//            Potion potion = list.get(random.nextInt(list.size()));
+//            ItemStack potionStack = PotionUtils.setPotion(new ItemStack(this.sell.getItem(), 1), potion);
+//
+//            return new MerchantOffer(PotionUtils.setPotion(buy, Potions.WATER), currency, potionStack, this.maxUses, this.experience, this.multiplier);
+            return null;
         }
 
     }

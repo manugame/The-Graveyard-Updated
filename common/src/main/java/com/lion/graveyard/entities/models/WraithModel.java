@@ -9,16 +9,16 @@ public class WraithModel extends GeoModel<WraithEntity> {
 
     @Override
     public ResourceLocation getModelResource(WraithEntity object) {
-        return new ResourceLocation(Graveyard.MOD_ID, "geo/wraith.geo.json");
+        return ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "geo/wraith.geo.json");
     }
 
     @Override
     public ResourceLocation getTextureResource(WraithEntity object) {
-        return new ResourceLocation(Graveyard.MOD_ID, "textures/entity/wraith_opaque.png");
+        return ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "textures/entity/wraith_opaque.png");
     }
 
     @Override
     public ResourceLocation getAnimationResource(WraithEntity animatable) {
-        return new ResourceLocation(Graveyard.MOD_ID, "animations/wraith/wraith.animation.json");
+        return ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "animations/wraith/wraith.animation.json");
     }
 }

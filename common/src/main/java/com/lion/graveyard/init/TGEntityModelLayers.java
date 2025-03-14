@@ -19,10 +19,10 @@ public class TGEntityModelLayers {
     public static final ModelLayerLocation CORRUPTED_ILLAGER_OUTER_ARMOR_MODEL_LAYER;
 
     static {
-        CORRUPTED_ILLAGER_MODEL_LAYER = new ModelLayerLocation(new ResourceLocation(Graveyard.MOD_ID, "corrupted_illager"), "main");
-        ACOLYTE_MODEL_LAYER = new ModelLayerLocation(new ResourceLocation(Graveyard.MOD_ID, "acolyte"), "acolyte");
-        CORRUPTED_ILLAGER_INNER_ARMOR_MODEL_LAYER = new ModelLayerLocation(new ResourceLocation(Graveyard.MOD_ID, "corrupted_illager_inner_armor"), "inner_armor");
-        CORRUPTED_ILLAGER_OUTER_ARMOR_MODEL_LAYER = new ModelLayerLocation(new ResourceLocation(Graveyard.MOD_ID, "corrupted_illager_outer_armor"), "outer_armor");
+        CORRUPTED_ILLAGER_MODEL_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "corrupted_illager"), "main");
+        ACOLYTE_MODEL_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "acolyte"), "acolyte");
+        CORRUPTED_ILLAGER_INNER_ARMOR_MODEL_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "corrupted_illager_inner_armor"), "inner_armor");
+        CORRUPTED_ILLAGER_OUTER_ARMOR_MODEL_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "corrupted_illager_outer_armor"), "outer_armor");
     }
 
     public static void init() {

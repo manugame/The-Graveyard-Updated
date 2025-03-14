@@ -1,5 +1,6 @@
 package com.lion.graveyard.entities.renders;
 
+import com.lion.graveyard.Graveyard;
 import com.lion.graveyard.entities.SkeletonCreeper;
 import com.lion.graveyard.entities.renders.features.SkeletonCreeperChargeFeatureRenderer;
 import com.lion.graveyard.entities.renders.features.SkeletonCreeperEyes;
@@ -17,7 +18,7 @@ import net.minecraft.world.entity.monster.Creeper;;
 @Environment(EnvType.CLIENT)
 public class SkeletonCreeperRender extends MobRenderer<SkeletonCreeper, CreeperModel<SkeletonCreeper>> {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation("graveyard:textures/entity/skeleton_creeper.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID,"textures/entity/skeleton_creeper.png");
 
     public SkeletonCreeperRender(EntityRendererProvider.Context context) {
         super(context, new CreeperModel<>(context.bakeLayer(ModelLayers.CREEPER)), 0.5F);

@@ -2,6 +2,7 @@ package com.lion.graveyard.trades.trades;
 
 import com.google.gson.JsonObject;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -11,11 +12,14 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MapItem;
+import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.saveddata.maps.MapDecoration;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 public class JsonSellStructureMapTradeOffer extends JsonTradeOffer {
 
@@ -59,10 +63,10 @@ public class JsonSellStructureMapTradeOffer extends JsonTradeOffer {
                 if (blockPos != null) {
                     ItemStack itemStack = MapItem.create(serverLevel, blockPos.getX(), blockPos.getZ(), (byte)2, true, true);
                     MapItem.renderBiomePreviewMap(serverLevel, itemStack);
-                    MapItemSavedData.addTargetDecoration(itemStack, blockPos, "+", MapDecoration.Type.RED_X);
-                    itemStack.setHoverName(Component.translatable(this.nameKey));
+                    //MapItemSavedData.addTargetDecoration(itemStack, blockPos, "+", MapDecoration.Type.RED_X);
+                    itemStack.set(DataComponents.CUSTOM_NAME, Component.translatable(this.nameKey));
 
-                    return new MerchantOffer(currency, buy, itemStack, this.maxUses, this.experience, this.multiplier);
+                    return new MerchantOffer(new ItemCost(currency.getItem()), Optional.of(new ItemCost(buy.getItem())), itemStack, this.maxUses, this.experience, this.multiplier);
                 } else {
                     return null;
                 }

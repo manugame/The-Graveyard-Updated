@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class GraveyardClient {
 
-    public static final ResourceLocation SKULL_PACKET_ID = new ResourceLocation(Graveyard.MOD_ID, "spawn_entity");
+    public static final ResourceLocation SKULL_PACKET_ID = ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "spawn_entity");
 
     @Environment(EnvType.CLIENT)
     public static void init() {

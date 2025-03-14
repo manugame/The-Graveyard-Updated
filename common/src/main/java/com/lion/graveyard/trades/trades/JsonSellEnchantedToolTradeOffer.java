@@ -6,8 +6,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.stream.Stream;
 
 public class JsonSellEnchantedToolTradeOffer extends JsonTradeOffer {
 
@@ -39,10 +42,10 @@ public class JsonSellEnchantedToolTradeOffer extends JsonTradeOffer {
 
         public MerchantOffer getOffer(Entity entity, RandomSource random) {
             int i = 5 + random.nextInt(15);
-            ItemStack itemStack = EnchantmentHelper.enchantItem(random, new ItemStack(this.sell.getItem()), i, false);
+            ItemStack itemStack = EnchantmentHelper.enchantItem(random, new ItemStack(this.sell.getItem()), i, Stream.of());
             int j = Math.min(this.currency.getCount() + i, 64);
 
-            return new MerchantOffer(new ItemStack(currency.getItem(), j), itemStack, this.maxUses, this.experience, multiplier);
+            return new MerchantOffer(new ItemCost(currency.getItem(), j), itemStack, this.maxUses, this.experience, multiplier);
         }
     }
 }

@@ -100,9 +100,8 @@ public class SarcophagusBlock extends BaseEntityBlock implements SimpleWaterlogg
     private static Direction getDirectionTowardsOtherPart(SarcophagusPart part, Direction direction) {
         return part == SarcophagusPart.FOOT ? direction : direction.getOpposite();
     }
-
     @Override
-    public boolean isPathfindable(BlockState p_60475_, BlockGetter p_60476_, BlockPos p_60477_, PathComputationType p_60478_) {
+    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
         return false;
     }
 

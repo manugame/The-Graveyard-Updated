@@ -19,27 +19,28 @@ public class VialOfBlood extends Item {
     }
 
     public static float getBlood(ItemStack stack) {
-        CompoundTag nbtCompound = stack.getTag();
-        if (nbtCompound == null) {
-            return 0.1F;
-        } else {
-            return nbtCompound.getFloat(BlOOD_KEY);
-        }
+        return 0.1F; //TODO:
+        //        CompoundTag nbtCompound = stack.getTag();
+//        if (nbtCompound == null) {
+//            return 0.1F;
+//        } else {
+//            return nbtCompound.getFloat(BlOOD_KEY);
+//        }
     }
 
     public static void setBlood(ItemStack stack, float blood) {
-        CompoundTag nbtCompound = stack.getOrCreateTag();
-        if (blood < 0.9F) {
-            nbtCompound.putFloat(BlOOD_KEY, blood);
-        }
+//        CompoundTag nbtCompound = stack.getOrCreateTag();
+//        if (blood < 0.9F) {
+//            nbtCompound.putFloat(BlOOD_KEY, blood);
+//        }
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag context) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag tooltipFlag) {
         float blood = 0;
-        if (stack.hasTag()) {
-            blood = stack.getTag().getFloat(BlOOD_KEY);
-        }
+//        if (stack.hasTag()) {
+//            blood = stack.getTag().getFloat(BlOOD_KEY);
+//        }
 
         if (blood > 0.8F && blood < 0.9F) {
             tooltip.add(Component.translatable("Blood level: full").withStyle(ChatFormatting.GRAY));
@@ -51,6 +52,6 @@ public class VialOfBlood extends Item {
                 tooltip.add(Component.translatable("Blood level: " + level + "/8").withStyle(ChatFormatting.GRAY));
             }
         }
-
     }
+
 }

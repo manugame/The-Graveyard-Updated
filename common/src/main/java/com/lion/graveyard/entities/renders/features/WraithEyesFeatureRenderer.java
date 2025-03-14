@@ -8,12 +8,13 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.renderer.GeoRenderer;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 
 public class WraithEyesFeatureRenderer extends GeoRenderLayer<WraithEntity> {
-    private final RenderType TEXTURE = RenderType.eyes(new ResourceLocation(Graveyard.MOD_ID,"textures/entity/wraith_eyes.png"));
+    private final RenderType TEXTURE = RenderType.eyes(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID,"textures/entity/wraith_eyes.png"));
     private final GeoRenderer<WraithEntity> renderer;
 
     public WraithEyesFeatureRenderer(GeoRenderer<WraithEntity> entityRendererIn) {
@@ -35,7 +36,7 @@ public class WraithEyesFeatureRenderer extends GeoRenderLayer<WraithEntity> {
                 partialTick,
                 15728640,
                 OverlayTexture.NO_OVERLAY,
-                1.0F, 1.0F, 1.0F, 1.0F
+                FastColor.ARGB32.colorFromFloat(1.0F, 1.0F, 1.0F, 1.0F)
         );
     }
 

@@ -21,13 +21,13 @@ public class TradeOfferManager {
 
     public static void registerTradeOffers() {
         Graveyard.getLogger().info("Registered JSON trade offer adapter.");
-        tradeOfferRegistry.put(new ResourceLocation(Graveyard.MOD_ID,"sell_item"), new JsonSellItemTradeOffer());
-        tradeOfferRegistry.put(new ResourceLocation(Graveyard.MOD_ID,"buy_item"), new JsonBuyItemTradeOffer());
-        tradeOfferRegistry.put(new ResourceLocation(Graveyard.MOD_ID,"process_item"), new JsonProcessItemTradeOffer());
-        tradeOfferRegistry.put(new ResourceLocation(Graveyard.MOD_ID,"sell_potion"), new JsonSellPotionTradeOffer());
-        tradeOfferRegistry.put(new ResourceLocation(Graveyard.MOD_ID,"sell_enchanted_tool"), new JsonSellEnchantedToolTradeOffer());
-        tradeOfferRegistry.put(new ResourceLocation(Graveyard.MOD_ID,"sell_enchanted_book"), new JsonSellEnchantedBookTradeOffer());
-        tradeOfferRegistry.put(new ResourceLocation(Graveyard.MOD_ID,"sell_map"), new JsonSellStructureMapTradeOffer());
+        tradeOfferRegistry.put(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID,"sell_item"), new JsonSellItemTradeOffer());
+        tradeOfferRegistry.put(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID,"buy_item"), new JsonBuyItemTradeOffer());
+        tradeOfferRegistry.put(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID,"process_item"), new JsonProcessItemTradeOffer());
+        tradeOfferRegistry.put(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID,"sell_potion"), new JsonSellPotionTradeOffer());
+        tradeOfferRegistry.put(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID,"sell_enchanted_tool"), new JsonSellEnchantedToolTradeOffer());
+        tradeOfferRegistry.put(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID,"sell_enchanted_book"), new JsonSellEnchantedBookTradeOffer());
+        tradeOfferRegistry.put(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID,"sell_map"), new JsonSellStructureMapTradeOffer());
     }
 
     public static void deserializeJson(JsonObject jsonRoot) {

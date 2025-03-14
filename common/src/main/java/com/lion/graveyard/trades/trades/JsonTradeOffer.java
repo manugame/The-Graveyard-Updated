@@ -38,7 +38,7 @@ public abstract class JsonTradeOffer {
     }
 
     public static ResourceLocation readIdentifier(JsonObject object, String key, String defaultValue) {
-        return object.has(key) ? ResourceLocation.tryParse(object.get(key).getAsString()) : new ResourceLocation(defaultValue);
+        return object.has(key) ? ResourceLocation.tryParse(object.get(key).getAsString()) : ResourceLocation.withDefaultNamespace(defaultValue);
     }
 
 

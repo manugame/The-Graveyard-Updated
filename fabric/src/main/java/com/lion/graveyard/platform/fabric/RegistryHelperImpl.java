@@ -3,6 +3,7 @@ package com.lion.graveyard.platform.fabric;
 import com.lion.graveyard.Graveyard;
 import com.lion.graveyard.mixin.TrunkPlacerTypeInvoker;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
@@ -52,12 +53,12 @@ import java.util.function.Supplier;
 public class RegistryHelperImpl {
 
     public static <T extends Block> Supplier<T> registerBlock(String name, Supplier<T> block) {
-        var registry = Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(Graveyard.MOD_ID, name), block.get());
+        var registry = Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, name), block.get());
         return () -> registry;
     }
 
     public static <T extends Item> Supplier<T> registerItem(String name, Supplier<T> item) {
-        var registry = Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(Graveyard.MOD_ID, name), item.get());
+        var registry = Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, name), item.get());
         return () -> registry;
     }
 
@@ -81,12 +82,12 @@ public class RegistryHelperImpl {
     }
 
     public static <T extends BlockEntityType<?>> Supplier<T> registerBlockEntity(String name, Supplier<T> blockEntity) {
-        var registry = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, new ResourceLocation(Graveyard.MOD_ID, name), blockEntity.get());
+        var registry = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, name), blockEntity.get());
         return () -> registry;
     }
 
     public static <T extends Structure> void registerStructureType(String name, StructureType<T> structureType) {
-        Registry.register(BuiltInRegistries.STRUCTURE_TYPE, new ResourceLocation(Graveyard.MOD_ID, name), structureType);
+        Registry.register(BuiltInRegistries.STRUCTURE_TYPE, ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, name), structureType);
     }
 
     public static void registerParticleType(String name, SimpleParticleType particleType) {
@@ -94,11 +95,11 @@ public class RegistryHelperImpl {
     }
 
     public static void registerStructureProcessor(String name, StructureProcessorType<?> processorType) {
-        Registry.register(BuiltInRegistries.STRUCTURE_PROCESSOR, new ResourceLocation(Graveyard.MOD_ID, name), processorType);
+        Registry.register(BuiltInRegistries.STRUCTURE_PROCESSOR, ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, name), processorType);
     }
 
     public static void registerScreenHandlerType(String name, MenuType<?> screenHandlerType) {
-        Registry.register(BuiltInRegistries.MENU, new ResourceLocation(Graveyard.MOD_ID, name), screenHandlerType);
+        Registry.register(BuiltInRegistries.MENU, ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, name), screenHandlerType);
     }
 
     public static void registerRenderType(RenderType type, Block... blocks) {
@@ -106,7 +107,7 @@ public class RegistryHelperImpl {
     }
 
     public static <T extends SoundEvent> Supplier<T> registerSoundEvent(String name, Supplier<T> soundEvent) {
-        var registry = Registry.register(BuiltInRegistries.SOUND_EVENT, new ResourceLocation(Graveyard.MOD_ID, name), soundEvent.get());
+        var registry = Registry.register(BuiltInRegistries.SOUND_EVENT, ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, name), soundEvent.get());
         return () -> registry;
     }
 
@@ -119,7 +120,7 @@ public class RegistryHelperImpl {
     }
 
     public static <T extends Entity> Supplier<EntityType<T>> registerEntityType(String name, Supplier<EntityType<T>> entityType) {
-        var registry = Registry.register(BuiltInRegistries.ENTITY_TYPE, new ResourceLocation(Graveyard.MOD_ID, name), entityType.get());
+        var registry = Registry.register(BuiltInRegistries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, name), entityType.get());
         return () -> registry;
     }
 
@@ -132,7 +133,7 @@ public class RegistryHelperImpl {
     }
 
     public static <T extends Recipe<?>> Supplier<RecipeType<T>> registerRecipeType(String name, RecipeType<T> type) {
-        var registry = Registry.register(BuiltInRegistries.RECIPE_TYPE, new ResourceLocation(Graveyard.MOD_ID, name), type);
+        var registry = Registry.register(BuiltInRegistries.RECIPE_TYPE, ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, name), type);
         return () -> registry;
     }
 
@@ -142,11 +143,11 @@ public class RegistryHelperImpl {
     }
 
     public static Supplier<Feature<?>> registerFeature(String name, Feature<?> feature) {
-        var registry = Registry.register(BuiltInRegistries.FEATURE, new ResourceLocation(Graveyard.MOD_ID, name), feature);
+        var registry = Registry.register(BuiltInRegistries.FEATURE, ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, name), feature);
         return () -> registry;
     }
 
-    public static <T extends TrunkPlacer> Supplier<TrunkPlacerType<?>> registerTrunkPlacerType(String name, Codec<T> codec) {
+    public static <T extends TrunkPlacer> Supplier<TrunkPlacerType<?>> registerTrunkPlacerType(String name, MapCodec<T> codec) {
         return () -> TrunkPlacerTypeInvoker.callRegister(Graveyard.createStringID(name), codec);
     }
 

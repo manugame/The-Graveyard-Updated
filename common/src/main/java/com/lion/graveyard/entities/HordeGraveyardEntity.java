@@ -2,6 +2,7 @@ package com.lion.graveyard.entities;
 
 import com.lion.graveyard.init.TGCriteria;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.server.level.ServerPlayer;
@@ -48,10 +49,12 @@ public abstract class HordeGraveyardEntity extends HostileGraveyardEntity {
         nbt.putBoolean("Patrolling", this.patrolling);
     }
 
+
+    @Override
     public void readAdditionalSaveData(CompoundTag nbt) {
         super.readAdditionalSaveData(nbt);
         if (nbt.contains("PatrolTarget")) {
-            this.patrolTarget = NbtUtils.readBlockPos(nbt.getCompound("PatrolTarget"));
+            this.patrolTarget = NbtUtils.readBlockPos(nbt,"PatrolTarget").get();
         }
         this.patrolLeader = nbt.getBoolean("PatrolLeader");
         this.patrolling = nbt.getBoolean("Patrolling");
@@ -65,8 +68,7 @@ public abstract class HordeGraveyardEntity extends HostileGraveyardEntity {
         return true;
     }
 
-    @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData, @Nullable CompoundTag entityNbt) {
+    public @Nullable SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData spawnGroupData) {
         if (spawnReason != MobSpawnType.PATROL && spawnReason != MobSpawnType.EVENT && spawnReason != MobSpawnType.STRUCTURE && this.random.nextFloat() < 0.06F && this.canBeLeader()) {
             this.patrolLeader = true;
         }
@@ -75,7 +77,7 @@ public abstract class HordeGraveyardEntity extends HostileGraveyardEntity {
             this.patrolling = true;
         }
 
-        return super.finalizeSpawn(world, difficulty, spawnReason, entityData, entityNbt);
+        return super.finalizeSpawn(world, difficulty, spawnReason, spawnGroupData);
     }
 
     public boolean removeWhenFarAway(double distanceSquared) {

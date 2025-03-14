@@ -28,9 +28,9 @@ public class TGMossBlock extends MossBlock {
         super.animateTick(state, world, pos, random);
 
         // can spawn
-        if (Graveyard.getConfig().fogSpawn(new ResourceLocation(Graveyard.MOD_ID, "graveyard_fog_particle"))) {
+        if (Graveyard.getConfig().fogSpawn(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "graveyard_fog_particle"))) {
             // how much will spawn
-            if (random.nextInt(Graveyard.getConfig().getParticle(new ResourceLocation(Graveyard.MOD_ID, "graveyard_fog_particle")).spawnChance) == 0) {
+            if (random.nextInt(Graveyard.getConfig().getParticle(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "graveyard_fog_particle")).spawnChance) == 0) {
                 world.addParticle(TGParticles.GRAVEYARD_FOG_PARTICLE, (double) pos.getX() + random.nextDouble(), (double) pos.getY() + random.nextDouble(), (double) pos.getZ() + random.nextDouble(), 0.0D, 0.0D, 0.0D);
             }
 

@@ -1,5 +1,6 @@
 package com.lion.graveyard.entities;
 
+import com.lion.graveyard.Graveyard;
 import com.lion.graveyard.entities.ai.goals.RevenantMeleeAttackGoal;
 import com.lion.graveyard.init.TGSounds;
 import net.minecraft.core.BlockPos;
@@ -7,11 +8,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -29,12 +30,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.Animation;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animation.*;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.UUID;
@@ -75,12 +72,12 @@ public class RevenantEntity extends AngerableGraveyardEntity implements GeoEntit
 
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(ANIMATION, ANIMATION_IDLE);
-        this.entityData.define(ATTACK_ANIM_TIMER, 0);
-        this.entityData.define(REANIMATE_ANIM_TIMER, 0);
-        this.entityData.define(CAN_REANIMATE, true);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(ANIMATION, ANIMATION_IDLE);
+        builder.define(ATTACK_ANIM_TIMER, 0);
+        builder.define(REANIMATE_ANIM_TIMER, 0);
+        builder.define(CAN_REANIMATE, true);
     }
 
     protected void registerGoals() {
@@ -96,9 +93,9 @@ public class RevenantEntity extends AngerableGraveyardEntity implements GeoEntit
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal(this, IronGolem.class, true));
     }
 
-    public MobType getMobType() {
-        return MobType.UNDEAD;
-    }
+//    public MobType getMobType() {
+//        return MobType.UNDEAD;
+//    }
 
     public static AttributeSupplier.Builder createRevenantAttributes() {
         return Monster.createMonsterAttributes()
@@ -144,12 +141,12 @@ public class RevenantEntity extends AngerableGraveyardEntity implements GeoEntit
         AttributeInstance entityAttributeInstance = this.getAttribute(Attributes.MOVEMENT_SPEED);
         if (getReanimateAnimTimer() > 0) {
             this.getLookControl().setLookAt(this.getX(), this.getY(), this.getZ());
-            if (!entityAttributeInstance.hasModifier(SLOWNESS_EFFECT)) {
+            if (!entityAttributeInstance.hasModifier(SLOWNESS_EFFECT.id())) {
                 entityAttributeInstance.addTransientModifier(SLOWNESS_EFFECT);
             }
         } else {
-            if (entityAttributeInstance.hasModifier(SLOWNESS_EFFECT)) {
-                entityAttributeInstance.removeModifier(SLOWNESS_EFFECT.getId());
+            if (entityAttributeInstance.hasModifier(SLOWNESS_EFFECT.id())) {
+                entityAttributeInstance.removeModifier(SLOWNESS_EFFECT);
             }
         }
 
@@ -325,7 +322,7 @@ public class RevenantEntity extends AngerableGraveyardEntity implements GeoEntit
         REANIMATE_ANIM_TIMER = SynchedEntityData.defineId(RevenantEntity.class, EntityDataSerializers.INT);
         ANIMATION = SynchedEntityData.defineId(RevenantEntity.class, EntityDataSerializers.INT);
         CAN_REANIMATE = SynchedEntityData.defineId(RevenantEntity.class, EntityDataSerializers.BOOLEAN);
-        SLOWNESS_EFFECT = new AttributeModifier(SLOWNESS_ID, "Slowness effect", -0.3D, AttributeModifier.Operation.ADDITION);
+        SLOWNESS_EFFECT = new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Graveyard.MOD_ID, "slowness_effect"), -0.3D, AttributeModifier.Operation.ADD_VALUE);
     }
 
 

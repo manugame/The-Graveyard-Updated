@@ -1,6 +1,5 @@
 package com.lion.graveyard.platform.neoforge;
 
-import com.lion.graveyard.item.BoneStaffItem;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.storage.LevelResource;
 
@@ -24,7 +23,7 @@ public class ServerEvents {
                         if (keyValuePair.length > 1) {
                             String key = keyValuePair[0];
                             String value = keyValuePair[1];
-                            BoneStaffItem.ownerGhoulingMapping.putIfAbsent(UUID.fromString(key), UUID.fromString(value));
+                            //BoneStaffItem.ownerGhoulingMapping.putIfAbsent(UUID.fromString(key), UUID.fromString(value)); //TODO: Fix this
                         }
                     }
                 } catch (IOException e) {
@@ -42,10 +41,10 @@ public class ServerEvents {
                 FileWriter fileWriter = new FileWriter(server.getWorldPath(LevelResource.ROOT).toString() + "/graveyardGhoulingUUIDmapping.txt");
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
-                for (Map.Entry<UUID, UUID> entry : BoneStaffItem.ownerGhoulingMapping.entrySet()) {
-                    bufferedWriter.write(entry.getKey() + ":" + entry.getValue());
-                    bufferedWriter.newLine();
-                }
+//                for (Map.Entry<UUID, UUID> entry : BoneStaffItem.ownerGhoulingMapping.entrySet()) { TODO: Fix this
+//                    bufferedWriter.write(entry.getKey() + ":" + entry.getValue());
+//                    bufferedWriter.newLine();
+//                }
 
                 bufferedWriter.flush();
                 bufferedWriter.close();
